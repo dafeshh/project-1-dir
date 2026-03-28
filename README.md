@@ -2,14 +2,6 @@
 
 <br/>
 
-```
-██████╗ ██╗██████╗      ██████╗███╗   ███╗██████╗
-██╔══██╗██║██╔══██╗    ██╔════╝████╗ ████║██╔══██╗
-██║  ██║██║██████╔╝    ██║     ██╔████╔██║██║  ██║
-██║  ██║██║██╔══██╗    ██║     ██║╚██╔╝██║██║  ██║
-██████╔╝██║██║  ██║    ╚██████╗██║ ╚═╝ ██║██████╔╝
-╚═════╝ ╚═╝╚═╝  ╚═╝    ╚═════╝╚═╝     ╚═╝╚═════╝
-```
 
 **A faithful C++ reimplementation of the Windows `DIR` command using the Win32 API**
 
@@ -41,7 +33,6 @@
 - 📄 **Bare format** with `/B` — output filenames only, perfect for scripting
 - 💽 **Volume info** — serial number and free disk space
 - ⚠️ **Invalid switch detection** with meaningful error messages
-- 🔡 Support for 15+ switches: `/A /B /C /D /L /N /O /P /Q /R /S /T /W /X /4 /?`
 
 ---
 
@@ -69,11 +60,6 @@ cl timtenfile.cpp /Fe:timtenfile.exe
 
 ```
 timtenfile [drive:][path][filename] [switches]
-```
-
-```
-timtenfile [drive:][path][filename] [/A[[:]attributes]] [/B] [/C] [/D] [/L] [/N]
-           [/O[[:]sortorder]] [/P] [/Q] [/R] [/S] [/T[[:]timefield]] [/W] [/X] [/4]
 ```
 
 ### Examples
@@ -130,38 +116,15 @@ timtenfile /?
 | Switch | Description |
 |--------|-------------|
 | `/B`   | Bare format — filenames only, no header or summary |
-| `/W`   | Wide list format |
-| `/D`   | Same as `/W`, sorted by column |
-| `/N`   | Long list format (default) |
-| `/L`   | Lowercase output |
-| `/C`   | Display thousand separator in file sizes |
-| `/X`   | Display short names for non-8dot3 files |
+
 
 ### Traversal & Pagination
 
 | Switch | Description |
 |--------|-------------|
 | `/S`   | Recurse into all subdirectories |
-| `/P`   | Pause after each screen of output |
 
-### Sorting (`/O`)
 
-| Switch | Description |
-|--------|-------------|
-| `/ON`  | Sort by name |
-| `/OE`  | Sort by extension |
-| `/OS`  | Sort by size |
-| `/OD`  | Sort by date/time |
-| `/OG`  | Directories first |
-
-### Other
-
-| Switch | Description |
-|--------|-------------|
-| `/Q`   | Display file owner |
-| `/R`   | Display alternate data streams |
-| `/T`   | Control which timestamp to use |
-| `/?`   | Display help information |
 
 > **Tip:** Switches can be combined freely, e.g. `/B /S /AH` for a bare recursive listing of hidden files.
 
