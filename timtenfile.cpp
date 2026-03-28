@@ -203,39 +203,20 @@ void Parameter_and_Switch_format_Check(int argc, char *argv[], int &Dsl, int Asl
 void printHelp(){
 	std::cout <<"Displays a list of files and subdirectories in a directory.\n\n"
 				"DIR [drive:][path][filename] [/A[[:]attributes]] [/B] [/C] [/D] [/L] [/N]\n"
-				"  [/O[[:]sortorder]] [/P] [/Q] [/R] [/S] [/T[[:]timefield]] [/W] [/X] [/4]\n\n" 
-				"  [drive:][path][filename]\n"
-				"              Specifies drive, directory, and/or files to list.\n\n"
 				"  /A          Displays files with specified attributes.\n"
 				"  attributes   D  Directories                R  Read-only files\n"
 				"               H  Hidden files               A  Files ready for archiving\n"
 				"               S  System files               I  Not content indexed files\n"
 				"               L  Reparse Points             O  Offline files\n"
 				"  /B          Uses bare format (no heading information or summary).\n"
-				"  /C          Display the thousand separator in file sizes.  This is the\n"
-				"              default.  Use /-C to disable display of separator.\n"
-				"  /D          Same as wide but files are list sorted by column.\n"
-				"  /L          Uses lowercase.\n"
-				"  /N          New long list format where filenames are on the far right.\n"
-				"  /O          List by files in sorted order.\n"
-				"  sortorder    N  By name (alphabetic)       S  By size (smallest first)\n"
-				"               E  By extension (alphabetic)  D  By date/time (oldest first)\n"
-				"               G  Group directories first    -  Prefix to reverse order\n"
-				"  /P          Pauses after each screenful of information.\n"
-				"  /Q          Display the owner of the file.\n"
-				"  /R          Display alternate data streams of the file.\n"
+
 				"  /S          Displays files in specified directory and all subdirectories.\n"
-				"  /T          Controls which time field displayed or used for sorting\n"
-				"  timefield   C  Creation\n"
-				"              A  Last Access\n"
-				"              W  Last Written\n"
-				"  /W          Uses wide list format.\n"
-				"  /X          This displays the short names generated for non-8dot3 file\n"
-				"              names.  The format is that of /N with the short name inserted\n"
-				"              before the long name. If no short name is present, blanks are\n"
-				"              displayed in its place.\n\n"
-				"Switches may be preset in the DIRCMD environment variable.  Override\n"
-				"preset switches by prefixing any switch with - (hyphen)--for example, /-W.\n\n";
+				
+				"  /D          Delete file.\n"
+
+				"  /M          Move or rename file.\n\n";
+
+
 				std::exit(EXIT_SUCCESS);
 }
 
