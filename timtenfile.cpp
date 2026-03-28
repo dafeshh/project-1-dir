@@ -168,8 +168,8 @@ void Parameter_and_Switch_format_Check(int argc, char *argv[], int &Dsl, int Asl
 			for(int i = 0; i < Dsl; i++){
 //				std::cout << Asl[i] << " " << std::endl;
 		//		std::cout << arg[Asl[i]+1] << " " << std::endl;
-				if(arg[Asl[i]+1] != 'A' && arg[Asl[i]+1] != 'B' && arg[Asl[i]+1] != 'C' && arg[Asl[i]+1] != 'D' && arg[Asl[i]+1] != 'L' && arg[Asl[i]+1] != 'N' && arg[Asl[i]+1] != 'O' && arg[Asl[i]+1] != 'P' && arg[Asl[i]+1] != 'Q' && arg[Asl[i]+1] != 'R' && arg[Asl[i]+1] != 'D' && arg[Asl[i]+1] != 'T' && arg[Asl[i]+1] != 'W' && arg[Asl[i]+1] != 'X' && arg[Asl[i]+1] != '?' 
-				&& arg[Asl[i]+1] != 'a' && arg[Asl[i]+1] != 'b' && arg[Asl[i]+1] != 'c' && arg[Asl[i]+1] != 'd' && arg[Asl[i]+1] != 'l' && arg[Asl[i]+1] != 'n' && arg[Asl[i]+1] != 'o' && arg[Asl[i]+1] != 'p' && arg[Asl[i]+1] != 'q' && arg[Asl[i]+1] != 'r' && arg[Asl[i]+1] != 's' && arg[Asl[i]+1] != 't' && arg[Asl[i]+1] != 'w' && arg[Asl[i]+1] != 'x')
+				if(arg[Asl[i]+1] != 'A' && arg[Asl[i]+1] != 'B' && arg[Asl[i]+1] != 'C' && arg[Asl[i]+1] != 'D' && arg[Asl[i]+1] != 'L' && arg[Asl[i]+1] != 'N' && arg[Asl[i]+1] != 'O' && arg[Asl[i]+1] != 'P' && arg[Asl[i]+1] != 'Q' && arg[Asl[i]+1] != 'R' && arg[Asl[i]+1] != 'D' && arg[Asl[i]+1] != 'T' && arg[Asl[i]+1] != 'W' && arg[Asl[i]+1] != 'M' && arg[Asl[i]+1] != '?' 
+				&& arg[Asl[i]+1] != 'a' && arg[Asl[i]+1] != 'b' && arg[Asl[i]+1] != 'c' && arg[Asl[i]+1] != 'd' && arg[Asl[i]+1] != 'l' && arg[Asl[i]+1] != 'n' && arg[Asl[i]+1] != 'o' && arg[Asl[i]+1] != 'p' && arg[Asl[i]+1] != 'q' && arg[Asl[i]+1] != 'r' && arg[Asl[i]+1] != 's' && arg[Asl[i]+1] != 't' && arg[Asl[i]+1] != 'w' && arg[Asl[i]+1] != 'm')
 				{
 					std::cout << "Invalid switch - \"" << arg[Asl[i]+1] << "\"\n\n";
 					std::exit(EXIT_FAILURE);
@@ -556,6 +556,40 @@ void Displays_files_in_specified_directory_and_all_subdirectories(WIN32_FIND_DAT
 	FindClose(hFind);
 }
 
+void move(TCHAR filename[], TCHAR target_path[]){
+	WIN32_FIND_DATAA data;	
+	int check = 0;
+	TCHAR CurPath[MAX_PATH];
+	DWORD GetCurPath = GetCurrentDirectory(MAX_PATH, CurPath);
+	TCHAR file_path[MAX_PATH];
+
+	TCHAR buff[MAX_PATH];
+	TCHAR *filepart;
+
+	GetFullPathName(filename, MAX_PATH, buff, &filepart);
+
+		if(filepart){
+			std::cout << filepart << std::endl;
+		}
+
+		MoveFileA(filename, (std::string(target_path)+"\\"+std::string(filepart)).c_str());
+		
+		std::cout << "        1 file(s) moved.\n";
+		// std::cout << target_path << " " << filename; 
+	// }
+	
+}
+
+
+
+void del(TCHAR target_path[]){
+	DeleteFile(std::string(target_path).c_str());
+	std::cout << "delete a file\n";
+}
+
+
+
+
 int main(int argc, char *argv[]){
 	WIN32_FIND_DATAA data;	
 	/*WIN32_FIND_DATA la 1 struct cua thu vien windows.h su dung de dua ra thong tin cua file nhu ten file, kich thuoc, thoi gian chinh sua.
@@ -578,8 +612,9 @@ int main(int argc, char *argv[]){
 	*/
 	int Dsl = 0, Asl[100], d = 0, checkA = 0, checkB = 0, checkS = 0;
 	LARGE_INTEGER filesize;
-	TCHAR path[MAX_PATH], Disk[4], inpath[MAX_PATH];
+	TCHAR path[MAX_PATH], Disk[4], curpath[MAX_PATH];
 	DWORD GetPath = GetCurrentDirectory(MAX_PATH, path);
+	DWORD GetCPath = GetCurrentDirectory(MAX_PATH, curpath);
 	memcpy(Disk, path, 3);
 	
 	Disk[3] = '\0';
@@ -617,7 +652,7 @@ int main(int argc, char *argv[]){
 			}
 
 			else if(arg[1] == 'A' || arg[1] == 'a'){
-// std::cout << argv[i] << " " << arg[0] << " djtmecuocdoi " << arg << std::endl;	
+// std::cout << argv[i] << " " << arg[0] << "   " << arg << std::endl;	
 				Displays_files_with_specified_attributes(data, filesize, path, Disk, argc, argv, Dsl, Asl, checkB, checkS);
 			}
 
@@ -625,7 +660,18 @@ int main(int argc, char *argv[]){
 			else if(arg[1] == 'B' || arg[1] == 'b')
 				print_bare_format(data ,path, checkA, checkS);
 			
-			
+			else if(arg[1] == 'M' || arg[1] == 'm'){
+				std::cout << argv[3] << std::endl;
+				if(argc == 4)
+					move(argv[2], argv[3]);
+				if(argc == 3)
+					move(argv[2], curpath);
+			}
+
+			else if(arg[1] == 'D' || arg[1] == 'd'){
+					del(argv[2]);
+			}
+
 
 			// else if(arg[1] == 'S' || arg[1] == 's')
 			// 	Displays_files_in_specified_directory_and_all_subdirectories(data, filesize, path, Disk, argc, argv, Dsl, Asl, d, checkA, checkB);
