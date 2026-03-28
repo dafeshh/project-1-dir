@@ -1,39 +1,63 @@
-# DIR Command — Windows CLI Reimplementation
+<div align="center">
 
-A C++ reimplementation of the Windows `DIR` command using the Win32 API. This project replicates the core behavior of the native `dir` command, supporting multiple switches and attribute filters.
+<br/>
+
+```
+██████╗ ██╗██████╗      ██████╗███╗   ███╗██████╗
+██╔══██╗██║██╔══██╗    ██╔════╝████╗ ████║██╔══██╗
+██║  ██║██║██████╔╝    ██║     ██╔████╔██║██║  ██║
+██║  ██║██║██╔══██╗    ██║     ██║╚██╔╝██║██║  ██║
+██████╔╝██║██║  ██║    ╚██████╗██║ ╚═╝ ██║██████╔╝
+╚═════╝ ╚═╝╚═╝  ╚═╝    ╚═════╝╚═╝     ╚═╝╚═════╝
+```
+
+**A faithful C++ reimplementation of the Windows `DIR` command using the Win32 API**
+
+<br/>
+
+![C++](https://img.shields.io/badge/C%2B%2B-17-00599C?style=flat-square&logo=c%2B%2B&logoColor=white)
+![Platform](https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows&logoColor=white)
+![Win32](https://img.shields.io/badge/API-Win32-5C2D91?style=flat-square&logo=microsoft&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
+![Build](https://img.shields.io/badge/Build-MinGW%20%7C%20MSVC-orange?style=flat-square)
+
+<br/>
+
+</div>
+
+---
+
+## Overview
+
+`timtenfile` replicates the core behavior of the native Windows `dir` command — built from scratch using raw Win32 APIs. It supports attribute filtering, recursive traversal, sorting, multiple display modes, and volume information — all through a familiar CLI interface.
 
 ---
 
 ## Features
 
-- List files and directories in a given path
-- Display file size, last modified time, and file attributes
-- Support for multiple command-line switches (`/A`, `/B`, `/S`, `/O`, `/W`, `/P`, `/Q`, `/R`, `/T`, `/X`, `/L`, `/N`, `/D`, `/C`, `/?`)
-- Attribute filtering via `/A` (Directory, Hidden, System, Read-only, Archive, Reparse Point, Offline, Not Content Indexed)
-- Bare format listing with `/B`
-- Recursive subdirectory traversal with `/S`
-- Volume serial number and free disk space display
-- Invalid switch detection and error reporting
+- 📁 List files and directories with **size**, **timestamp**, and **attribute** display
+- 🔍 **Attribute filtering** via `/A` — filter by directory, hidden, system, read-only, archive, reparse point, offline, and more
+- 🌳 **Recursive traversal** with `/S` — walk entire directory trees
+- 📄 **Bare format** with `/B` — output filenames only, perfect for scripting
+- 💽 **Volume info** — serial number and free disk space
+- ⚠️ **Invalid switch detection** with meaningful error messages
+- 🔡 Support for 15+ switches: `/A /B /C /D /L /N /O /P /Q /R /S /T /W /X /4 /?`
 
 ---
 
 ## Requirements
 
-- Windows OS
-- C++ compiler with Win32 API support (e.g., MinGW, MSVC)
-- Windows SDK
+| Requirement | Details |
+|---|---|
+| OS | Windows (any modern version) |
+| Compiler | MinGW (g++) or MSVC |
+| SDK | Windows SDK |
 
 ---
 
 ## Build
 
-### Using g++ (MinGW)
-
-```bash
-g++ timtenfile.cpp -o timtenfile.exe -lkernel32
-```
-
-### Using MSVC
+### MSVC
 
 ```bash
 cl timtenfile.cpp /Fe:timtenfile.exe
@@ -44,8 +68,12 @@ cl timtenfile.cpp /Fe:timtenfile.exe
 ## Usage
 
 ```
+timtenfile [drive:][path][filename] [switches]
+```
+
+```
 timtenfile [drive:][path][filename] [/A[[:]attributes]] [/B] [/C] [/D] [/L] [/N]
-          [/O[[:]sortorder]] [/P] [/Q] [/R] [/S] [/T[[:]timefield]] [/W] [/X] [/4]
+           [/O[[:]sortorder]] [/P] [/Q] [/R] [/S] [/T[[:]timefield]] [/W] [/X] [/4]
 ```
 
 ### Examples
@@ -69,10 +97,10 @@ timtenfile /B
 # Recursive listing of all subdirectories
 timtenfile /S
 
-# Bare format + recursive
+# Combine switches — bare format + recursive
 timtenfile /B /S
 
-# List files with read-only attribute
+# List read-only files
 timtenfile /AR
 
 # Show help
@@ -83,46 +111,88 @@ timtenfile /?
 
 ## Supported Switches
 
+### Attribute Filters (`/A`)
+
 | Switch | Description |
 |--------|-------------|
 | `/A`   | Display files with specified attributes |
 | `/AD`  | Directories only |
-| `/AH`  | Hidden files only |
-| `/AS`  | System files only |
-| `/AR`  | Read-only files only |
+| `/AH`  | Hidden files |
+| `/AS`  | System files |
+| `/AR`  | Read-only files |
 | `/AA`  | Files ready for archiving |
-| `/AL`  | Reparse points (junctions) only |
+| `/AL`  | Reparse points (junctions/symlinks) |
 | `/AI`  | Not content indexed files |
 | `/AO`  | Offline files |
+
+### Display Options
+
+| Switch | Description |
+|--------|-------------|
 | `/B`   | Bare format — filenames only, no header or summary |
+| `/W`   | Wide list format |
+| `/D`   | Same as `/W`, sorted by column |
+| `/N`   | Long list format (default) |
+| `/L`   | Lowercase output |
+| `/C`   | Display thousand separator in file sizes |
+| `/X`   | Display short names for non-8dot3 files |
+
+### Traversal & Pagination
+
+| Switch | Description |
+|--------|-------------|
 | `/S`   | Recurse into all subdirectories |
+| `/P`   | Pause after each screen of output |
+
+### Sorting (`/O`)
+
+| Switch | Description |
+|--------|-------------|
+| `/ON`  | Sort by name |
+| `/OE`  | Sort by extension |
+| `/OS`  | Sort by size |
+| `/OD`  | Sort by date/time |
+| `/OG`  | Directories first |
+
+### Other
+
+| Switch | Description |
+|--------|-------------|
+| `/Q`   | Display file owner |
+| `/R`   | Display alternate data streams |
+| `/T`   | Control which timestamp to use |
 | `/?`   | Display help information |
 
-> Note: Switches can be combined, e.g. `/B /S` for a bare recursive listing.
+> **Tip:** Switches can be combined freely, e.g. `/B /S /AH` for a bare recursive listing of hidden files.
 
 ---
 
 ## Output Format
 
-Default listing output follows the standard `dir` format:
+Default output follows the standard `dir` layout:
 
 ```
  Volume in drive C is Windows-SSD
- Volume Serial Number is XXXX-XXXX
+ Volume Serial Number is ABCD-1234
 
  Directory of C:\some\path
 
-03/28/2026  10:30    <DIR>               folder_name
+03/28/2026  10:30    <DIR>          folder_name
 03/27/2026  08:15              4,096 file.txt
-               1 File(s)          4,096 bytes
+               1 File(s)              4,096 bytes
                1 Dir(s)   50,000,000,000 bytes free
 ```
 
+With `/B` (bare format):
 
+```
+folder_name
+file.txt
+```
 
 ---
 
-## Key Win32 APIs Used
+## Win32 APIs Used
 
 | API | Purpose |
 |-----|---------|
@@ -133,4 +203,25 @@ Default listing output follows the standard `dir` format:
 | `GetDiskFreeSpaceEx` | Query available disk space |
 | `FileTimeToSystemTime` | Convert `FILETIME` to human-readable `SYSTEMTIME` |
 
+---
 
+## Project Structure
+
+```
+.
+└── timtenfile.cpp      # Full implementation — single translation unit
+```
+
+---
+
+## License
+
+This project is released under the [MIT License](LICENSE).
+
+---
+
+<div align="center">
+
+Built with C++ · Powered by Win32 · Inspired by the classic Windows CLI
+
+</div>
